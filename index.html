@@ -15,41 +15,81 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-  /* =========================================================
-     THEME TOKENS — light is default, [data-theme="dark"] overrides
-     ========================================================= */
-  :root{
-    --bg: #F5F6FA;
-    --bg-soft: #FFFFFF;
-    --surface: #FFFFFF;
-    --surface-2: #EEF0F6;
-    --border: #E2E5EE;
-    --text: #10131A;
-    --text-muted: #5B6472;
-    --accent: #E03A1F;       /* laravel-red, nod to his primary stack */
-    --accent-strong: #C42E17;
-    --accent-2: #2D5FDB;     /* secondary tech-blue */
-    --accent-soft: rgba(224,58,31,0.09);
-    --accent-2-soft: rgba(45,95,219,0.09);
-    --shadow: 0 1px 2px rgba(16,19,26,0.04), 0 8px 24px rgba(16,19,26,0.06);
-    --scrollbar: #C7CCDA;
-  }
-  [data-theme="dark"]{
-    --bg: #0A0D14;
-    --bg-soft: #0E121B;
-    --surface: #131826;
-    --surface-2: #1A2032;
-    --border: #232A3D;
-    --text: #E7E9F1;
-    --text-muted: #8891A5;
-    --accent: #FF5A3C;
-    --accent-strong: #FF7B5F;
-    --accent-2: #6E93F7;
-    --accent-soft: rgba(255,90,60,0.13);
-    --accent-2-soft: rgba(110,147,247,0.13);
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
-    --scrollbar: #2A3245;
-  }
+  /* THEME TOKENS — light is default, [data-theme="dark"] overrides */
+  
+   :root {
+  /* Base */
+  --bg: #F5F6FA;
+  --bg-soft: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #EEF0F6;
+  --border: #E2E5EE;
+
+  /* Text */
+  --text: #10131A;
+  --text-muted: #5B6472;
+
+  /* Brand */
+  --accent: #E03A1F;
+  --accent-strong: #C42E17;
+  --accent-2: #2D5FDB;
+
+  /* Accent Backgrounds */
+  --accent-soft: rgba(224, 58, 31, 0.09);
+  --accent-2-soft: rgba(45, 95, 219, 0.09);
+
+  /* Effects */
+  --shadow: 0 1px 2px rgba(16, 19, 26, 0.04),
+            0 8px 24px rgba(16, 19, 26, 0.06);
+  --scrollbar: #C7CCDA;
+
+  /* Code Highlight */
+  --code-keyword: #005cc5;
+  --code-class: #6f42c1;
+  --code-type: #005cc5;
+  --code-variable: #d73a49;
+  --code-method: #6f42c1;
+  --code-string: #0b7a0b;
+  --code-number: #b75501;
+  --code-comment: #6a737d;
+}
+
+[data-theme="dark"] {
+  /* Base */
+  --bg: #0A0D14;
+  --bg-soft: #0E121B;
+  --surface: #131826;
+  --surface-2: #1A2032;
+  --border: #232A3D;
+
+  /* Text */
+  --text: #E7E9F1;
+  --text-muted: #8891A5;
+
+  /* Brand */
+  --accent: #FF5A3C;
+  --accent-strong: #FF7B5F;
+  --accent-2: #6E93F7;
+
+  /* Accent Backgrounds */
+  --accent-soft: rgba(255, 90, 60, 0.13);
+  --accent-2-soft: rgba(110, 147, 247, 0.13);
+
+  /* Effects */
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+            0 12px 32px rgba(0, 0, 0, 0.35);
+  --scrollbar: #2A3245;
+
+  /* Code Highlight */
+  --code-keyword: #79c0ff;
+  --code-class: #d2a8ff;
+  --code-type: #ff0040;
+  --code-variable: #ffa657;
+  --code-method: #d2a8ff;
+  --code-string: #fdec00;
+  --code-number: #79c0ff;
+  --code-comment: #8b949e;
+}
 
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -68,30 +108,60 @@
   ::-webkit-scrollbar-track{ background:var(--bg); }
   ::-webkit-scrollbar-thumb{ background:var(--scrollbar); border-radius:99px; border:2px solid var(--bg); }
 
-  /* =========================================================
-     CUSTOM CURSOR
-     ========================================================= */
-  .cursor-dot, .cursor-ring{
-    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
-    border-radius:50%; transform:translate(-50%,-50%);
-    will-change:transform;
-  }
-  .cursor-dot{ width:6px; height:6px; background:var(--accent); }
-  .cursor-ring{
-    width:34px; height:34px; border:1.5px solid var(--accent);
-    opacity:.55; transition:width .18s ease, height .18s ease, opacity .18s ease, border-color .18s ease, background .18s ease;
-  }
-  .cursor-ring.is-hover{
-    width:56px; height:56px; opacity:.9; background:var(--accent-soft);
-  }
-  body.cursor-active, body.cursor-active a, body.cursor-active button, body.cursor-active input, body.cursor-active textarea{ cursor:none; }
-  @media (hover:none), (pointer:coarse){
-    .cursor-dot, .cursor-ring{ display:none !important; }
-  }
+  /* CUSTOM CURSOR */
+  /* Custom Cursor */
+body.cursor-active,
+body.cursor-active a,
+body.cursor-active button,
+body.cursor-active input,
+body.cursor-active textarea {
+  cursor: none;
+}
 
-  /* =========================================================
-     SCROLL REVEAL
-     ========================================================= */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
+
+.cursor-ring {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  opacity: 0.7;
+  transition:
+    width .28s cubic-bezier(.22,1,.36,1),
+    height .28s cubic-bezier(.22,1,.36,1),
+    opacity .28s cubic-bezier(.22,1,.36,1),
+    transform .28s cubic-bezier(.22,1,.36,1);
+}
+
+ .cursor-ring.is-hover {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.7);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+  /* SCROLL REVEAL */
   .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.16,.8,.24,1), transform .7s cubic-bezier(.16,.8,.24,1); }
   .reveal.is-visible{ opacity:1; transform:translateY(0); }
   .reveal-delay-1{ transition-delay:.08s; }
@@ -103,16 +173,33 @@
     html{ scroll-behavior:auto; }
   }
 
-  /* =========================================================
-     MISC COMPONENTS
-     ========================================================= */
-  .nav-link{ position:relative; color:var(--text-muted); }
-  .nav-link::after{
-    content:''; position:absolute; left:0; bottom:-6px; height:1.5px; width:0%;
-    background:var(--accent); transition:width .25s ease;
+  /* MISC COMPONENTS */
+   .nav-link {
+      position: relative;
+      color: var(--text);
+      transition: color 0.3s ease;
+    }
+   .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
   }
-  .nav-link.active, .nav-link:hover{ color:var(--text); }
-  .nav-link.active::after{ width:100%; }
+
+  .nav-link:hover{ color:var(--text);}
+  .nav-link.active { color:var(--accent); }
+  /* .nav-link.active::after{ width:100%; } */
+
+  .nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
 
   .skill-chip{
     border:1px solid var(--border); background:var(--surface);
@@ -160,53 +247,7 @@
 
   @keyframes marquee-scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
   .marquee-track{ animation:marquee-scroll 26s linear infinite; }
-  /* code theme */
-  /* ---------- Code Syntax Colors ---------- */
 
-/* Light Theme */
-/* :root{
-  --code-keyword: #E03A1F;   
-  --code-class: #2D5FDB;     
-  --code-type: #0F7B6C;      
-  --code-variable: #7C3AED;  
-  --code-method: #C46A00;    
-  --code-string: #0F8B44;    
-  --code-number: #D97706;    
-  --code-comment: #7A8191;
-} */
-
-/* [data-theme="dark"]{
-  --code-keyword: #FF7B5F;
-  --code-class: #8AB4FF;
-  --code-type: #56D4C1;
-  --code-variable: #C9A8FF;
-  --code-method: #FFD166;
-  --code-string: #6EE7B7;
-  --code-number: #FDBA74;
-  --code-comment: #7F889A;
-} */
-:root{
-  --code-keyword: #005cc5;
-  --code-class: #6f42c1;
-  --code-type: #005cc5;
-  --code-variable: #d73a49;
-  --code-method: #6f42c1;
-  --code-string: #0b7a0b;
-  --code-number: #b75501;
-  --code-comment: #6a737d;
-}
-
-/* Dark Theme */
-[data-theme="dark"]{
-  --code-keyword: #79c0ff;
-  --code-class: #d2a8ff;
-  --code-type: #ff0040;
-  --code-variable: #ffa657;
-  --code-method: #d2a8ff;
-  --code-string: #fdec00;
-  --code-number: #79c0ff;
-  --code-comment: #8b949e;
-}
 
 /* Classes */
 .kw{
@@ -258,7 +299,46 @@
     visibility:visible;
     transform:translateY(0) scale(1);
 } 
+.resume-btn {
+  border-color: var(--border);
+  color: var(--text);
+}
 
+.resume-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.social-link {
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.social-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* profile image */
+#profileModal {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#profileModal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#profileModal > div {
+  transform: translateY(20px) scale(.95);
+  transition: all .35s cubic-bezier(.22,1,.36,1);
+}
+
+#profileModal.show > div {
+  transform: translateY(0) scale(1);
+}
 </style>
 </head>
 
@@ -274,22 +354,25 @@
       class="w-full h-full object-cover scale-125 select-none" 
     />
   </div>
-<!-- ============================================================
-     NAVBAR
-     ============================================================ -->
+<!-- NAVBAR -->
 <header id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-nav" style="border-color:var(--border); background:color-mix(in srgb, var(--bg) 78%, transparent);">
-  <!-- <div class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between"> -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <!-- <a href="#home" class="font-display font-bold text-lg tracking-tight cursor-hover" style="color:var(--text);">
-      NUR<span style="color:var(--accent);">.</span>
-    </a> -->
+   
     <div class="flex items-center gap-3">
       <div
-        class="w-10 h-10 rounded-full overflow-hidden border-2 shrink-0 select-none shadow-sm cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300" 
+        id="profileTrigger"
+        class="w-10 h-10 rounded-full overflow-hidden 
+        border-2 shrink-0 select-none shadow-sm 
+        cursor-pointer hover:scale-110 active:scale-95 
+        transition-all duration-300" 
         style="border: 2px solid var(--accent);"
-        title="Click to view profile & download resume"
+        title="View Profile"
       >
-        <img src="./md_naim_uddin_rahi.jpg" alt="Md. Naim Uddin Rahi" class="w-full h-full object-cover" />
+        <img 
+          src="./md_naim_uddin_rahi.jpg" 
+          alt="Mohammad Naim Uddin Rahi" 
+          class="w-full h-full object-cover" 
+        />
       </div>
       <span 
         class="font-display font-bold text-md tracking-tight cursor-pointer hover:opacity-85"
@@ -299,18 +382,16 @@
       </span>
     </div>
     
-
-    <!-- <nav class="hidden md:flex items-center gap-8 font-mono text-[13px] tracking-wide uppercase"> -->
     <nav class="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-[12px] lg:text-[13px] tracking-wide uppercase">
       <a href="#home" class="nav-link cursor-hover" data-nav>Home</a>
       <a href="#about" class="nav-link cursor-hover" data-nav>About</a>
       <a href="#skills" class="nav-link cursor-hover" data-nav>Skills</a>
       <a href="#experience" class="nav-link cursor-hover" data-nav>Experience</a>
       <a href="#projects" class="nav-link cursor-hover" data-nav>Projects</a>
+      <a href="#video-showcase" class="nav-link cursor-hover" data-nav>Video</a>
       <a href="#contact" class="nav-link cursor-hover" data-nav>Contact</a>
     </nav>
 
-    <!-- <div class="flex items-center gap-3"> -->
     <div class="flex items-center gap-2 sm:gap-3">
       <!-- Dynamic Accent Color rahi1-->
       <div class="relative" id="accentSelector">
@@ -363,13 +444,12 @@
     <a href="#skills" class="px-6 py-3 border-b" style="border-color:var(--border);" data-nav>Skills</a>
     <a href="#experience" class="px-6 py-3 border-b" style="border-color:var(--border);" data-nav>Experience</a>
     <a href="#projects" class="px-6 py-3 border-b" style="border-color:var(--border);" data-nav>Projects</a>
+    <a href="#video-showcase" class="px-6 py-3 border-b" style="border-color:var(--border);" data-nav>Video</a>
     <a href="#contact" class="px-6 py-3" data-nav>Contact</a>
   </div>
 </header>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
+<!-- HERO -->
 <section id="home" class="relative pt-20 pb-24 lg:pt-38 lg:pb-32 max-w-6xl mx-auto px-6 lg:px-8">
   <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
 
@@ -392,8 +472,12 @@
           View Work
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#contact" class="cursor-hover inline-flex items-center gap-2 px-6 py-3 rounded-full font-mono text-xs uppercase tracking-wide font-medium border transition-transform hover:-translate-y-0.5" style="border-color:var(--border); color:var(--text);">
-          Get In Touch
+        <a
+          href="./md-naim-uddin.pdf"
+          download
+          class="resume-btn cursor-hover inline-flex items-center gap-2 px-6 py-3 rounded-full font-mono text-xs uppercase tracking-wide font-medium border transition-all duration-300 hover:-translate-y-0.5"
+        >
+          Download Resume
         </a>
       </div>
 
@@ -415,60 +499,53 @@
   </div>
 </section>
 
-<!-- ============================================================
-     ABOUT
-     ============================================================ -->
-<section id="about" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
-  <div class="grid lg:grid-cols-[0.4fr_0.6fr] gap-14">
-    <div class="reveal">
-      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">01 / About</p>
-      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">A dependable engineer<br/>behind reliable systems</h2>
-    </div>
-    <div class="reveal reveal-delay-1">
-      <p id="aboutSummary" class="text-[15px] sm:text-base leading-relaxed mb-10" style="color:var(--text-muted);"></p>
-      <div id="statsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-6"></div>
-    </div>
-  </div>
-</section>
 
-<!-- ============================================================
-     SKILLS
-     ============================================================ -->
-<section id="skills" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
-  <div class="reveal mb-12">
-    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">02 / Skills</p>
-    <h2 class="font-display font-bold text-3xl sm:text-4xl">Tools of the trade</h2>
-  </div>
-  <div id="skillsWrap" class="space-y-10"></div>
-</section>
-
-<!-- ============================================================
-     EXPERIENCE
-     ============================================================ -->
-<section id="experience" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
-  <div class="reveal mb-14">
-    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">03 / Experience</p>
-    <h2 class="font-display font-bold text-3xl sm:text-4xl">Where I've worked</h2>
-  </div>
-  <div id="timelineWrap" class="relative pl-8 sm:pl-10"></div>
-</section>
-
-<!-- ============================================================
-     PROJECTS
-     ============================================================ -->
-<section id="projects" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
-  <div class="reveal mb-12 flex items-end justify-between flex-wrap gap-4">
-    <div>
-      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">04 / Projects</p>
-      <h2 class="font-display font-bold text-3xl sm:text-4xl">Selected work</h2>
+<!-- 01 / ABOUT -->
+  <section id="about" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
+    <div class="grid lg:grid-cols-[0.4fr_0.6fr] gap-14">
+      <div class="reveal">
+        <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">01 / About</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">A dependable engineer<br/>behind reliable systems</h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p id="aboutSummary" class="text-[15px] sm:text-base leading-relaxed mb-10" style="color:var(--text-muted);"></p>
+        <div id="statsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-6"></div>
+      </div>
     </div>
-    <p class="text-sm max-w-xs" style="color:var(--text-muted);">Add project images and YouTube demo links directly in the data object — cards render automatically.</p>
-  </div>
-  <div id="projectsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-</section>
-   <!-- ============================================================
-           05 / CORE ADDITION: PREMIUM VIDEO SHOWCASE SECTION
-           ============================================================  -->
+  </section>
+
+
+<!-- 02 / SKILLS -->
+  <section id="skills" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
+    <div class="reveal mb-12">
+      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">02 / Skills</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Tools of the trade</h2>
+    </div>
+    <div id="skillsWrap" class="space-y-10"></div>
+  </section>
+
+
+<!-- 03 / EXPERIENCE -->
+  <section id="experience" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
+    <div class="reveal mb-14">
+      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">03 / Experience</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl">Where I've worked</h2>
+    </div>
+    <div id="timelineWrap" class="relative pl-8 sm:pl-10"></div>
+  </section>
+
+<!-- 04 / PROJECTS -->
+  <section id="projects" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
+    <div class="reveal mb-12 flex items-end justify-between flex-wrap gap-4">
+      <div>
+        <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">04 / Projects</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl">Selected work</h2>
+      </div>
+      <p class="text-sm max-w-xs" style="color:var(--text-muted);">Add project images and YouTube demo links directly in the data object — cards render automatically.</p>
+    </div>
+    <div id="projectsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+<!-- 05 / CORE ADDITION: PREMIUM VIDEO SHOWCASE SECTION  -->
 <section
   id="video-showcase" 
   class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t relative overflow-hidden" 
@@ -479,7 +556,7 @@
       <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">05 / Profile Video</p>
       <h2 class="font-display font-bold text-3xl sm:text-4xl">Profile Video</h2>
     </div>
-    <!-- <p class="text-sm max-w-xs" style="color:var(--text-muted);">A Short description about me.</p> -->
+    
   </div>
 <div class="reveal is-visible">
   <div
@@ -516,7 +593,7 @@
       <iframe
         width="100%"
         height="100%"
-        src="https://www.youtube.com/embed/cPyzztU5DDA?rel=0"
+        src="https://www.youtube.com/embed/lPQlBTaEWrw?si=SqYZveKKhsPJP12p"
         title="Featured Walkthrough Demonstration"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -527,6 +604,7 @@
           border:0;
         "
       ></iframe>
+      
     </div>
 
     <!-- Footer -->
@@ -594,9 +672,7 @@
 </div>
 </section>
 
-<!-- ============================================================
-     PUBLICATION + CERTIFICATIONS + EDUCATION
-     ============================================================ -->
+<!-- PUBLICATION + CERTIFICATIONS + EDUCATION -->
 <section class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t grid lg:grid-cols-3 gap-10" style="border-color:var(--border);">
   <div class="reveal lg:col-span-1">
     <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">05 / Publication</p>
@@ -615,16 +691,14 @@
   </div>
 </section>
 
-<!-- ============================================================
-     CONTACT
-     ============================================================ -->
+<!-- CONTACT -->
 <section id="contact" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
   <div class="grid lg:grid-cols-2 gap-14">
     <div class="reveal">
       <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">08 / Contact</p>
       <h2 class="font-display font-bold text-3xl sm:text-4xl mb-6 leading-tight">Let's build something<br/>reliable together</h2>
       <p class="text-[15px] leading-relaxed mb-8 max-w-md" style="color:var(--text-muted);">
-        Open to full-time roles and freelance Laravel / full-stack work. The fastest way to reach me is email or phone.
+        Open to full-time roles and freelance Laravel / full-stack work. The fastest way to reach me is email.
       </p>
       <div id="contactInfo" class="space-y-4 font-mono text-sm"></div>
     </div>
@@ -672,13 +746,35 @@
   </div>
 </div>
 
+<div
+  id="profileModal"
+  class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300"
+>
+  <div
+    class="relative border border-gray-300 w-[380px] max-w-[90vw] rounded-3xl border border-white/10 bg-neutral-900/95 p-8 shadow-xl transition-all duration-300"
+
+    >
+    <img
+      src="./md_naim_uddin_rahi.jpg"
+      alt="Md. Naim Uddin Rahi"
+      class="mx-auto h-49 w-40 rounded-full object-cover"
+    />
+
+    <h2 class="mt-6 text-center text-2xl font-bold text-white">
+      Md. Naim Uddin Rahi
+    </h2>
+
+    <p class="mt-4 text-center text-sm leading-7 text-gray-400">
+      Passionate Full Stack Software Developer specializing in Laravel,
+      React, Next.js and TypeScript. I enjoy crafting clean, scalable,
+      high-performance applications with modern UI and exceptional user
+      experience.
+    </p>
+
+  </div>
+</div>
 <script>
-/* =====================================================================
-   ================   EDIT YOUR DATA HERE   ==========================
-   Everything the page displays — skills, experience, projects,
-   certifications, education, socials — comes from this object.
-   Update these fields any time; the layout rebuilds itself.
-   ===================================================================== */
+   
    const accentColors = [
     {
         id: "laravel-red",
@@ -786,7 +882,7 @@ items.forEach(item => {
 const accentBtn = document.getElementById("accentBtn");
 const accentDropdown = document.getElementById("accentDropdown");
 const accentSelector = document.getElementById("accentSelector");
-console.log('accentBtn', accentBtn)
+
 // // Toggle dropdown
 accentBtn.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -800,23 +896,6 @@ accentDropdown.addEventListener("click", (e) => {
 document.addEventListener("click", () => {
     accentDropdown.classList.remove("show");
 });
-// accentBtn.addEventListener("click", (e) => {
-//   console.log('first')
-//   // e.stopPropagation(); 
-//   e.stopPropagation();
-//   accentDropdown.classList.toggle("show");
-    
-//     // accentDropdown.classList.toggle("hidden");
-// });
-
-// // // Close when clicking outside
-// document.addEventListener("click", (e) => {
-//   console.log('second')
-// //  e.stopPropagation();
-//     // if (!accentSelector.contains(e.target)) {
-//         accentDropdown.classList.add("hidden");
-//     // }
-// });
 function applyAccent(color) {
     document.documentElement.style.setProperty("--accent", color.primary);
     document.documentElement.style.setProperty("--accent-strong", color.strong);
@@ -824,14 +903,37 @@ function applyAccent(color) {
 }
 
 
+const trigger = document.getElementById("profileTrigger");
+const profilemodal = document.getElementById("profileModal");
 
+let closeTimer;
 
+trigger.addEventListener("mouseenter", () => {
+  clearTimeout(closeTimer);
+  profilemodal.classList.add("show");
+});
 
+trigger.addEventListener("mouseleave", () => {
+  closeTimer = setTimeout(() => {
+    if (!profilemodal.matches(":hover")) {
+      profilemodal.classList.remove("show");
+    }
+  }, 10);
+});
 
+profilemodal.addEventListener("mouseenter", () => {
+  clearTimeout(closeTimer);
+});
 
+profilemodal.addEventListener("mouseleave", () => {
+  profilemodal.classList.remove("show");
+});
 
-
-
+profilemodal.addEventListener("click", (e) => {
+  if (e.target === profilemodal) {
+    profilemodal.classList.remove("show");
+  }
+});
 
 const portfolioData = {
 
@@ -847,19 +949,6 @@ const portfolioData = {
     { value: 2, suffix: "",  label: "Certifications" }
   ],
 
-//   terminalSnippet:
-// `class SoftwareEngineer {
-//     protected string $name = "Naim Uddin Rahi";
-//     protected array $stack = [
-//         "Laravel", "PHP", "MySQL",
-//         "React.js", "JavaScript", "Python"
-//     ];
-
-//     public function focus(): string {
-//         return "Scalable, maintainable
-//                  software solutions.";
-//     }
-// }`,
 terminalSnippet: `
 <span class="kw">class</span> <span class="class">SoftwareEngineer</span> {
     <span class="kw">protected</span> <span class="type">string</span> <span class="var">$name</span> = <span class="str">"Naim Uddin Rahi"</span>;
@@ -878,8 +967,7 @@ terminalSnippet: `
 
   socials: [
     { label: "Email",    href: "mailto:mdnaimuddinrahi@gmail.com", icon: "mail" },
-    { label: "Phone",    href: "tel:+8801883820962", icon: "phone" },
-    { label: "LinkedIn", href: "https://linkedin.com/md-naim-uddin-rahi", icon: "linkedin" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/md-naim-uddin-rahi", icon: "linkedin" },
     { label: "Github", href: "https://github.com/mdnaimuddinrahi", icon: "github" }
   ],
 
@@ -1029,21 +1117,17 @@ terminalSnippet: `
 
   contact: {
     email: "mdnaimuddinrahi@gmail.com",
-    phone: "+880 188-3820962",
-    linkedin: "linkedin.com/md-naim-uddin-rahi"
+    linkedin: "linkedin.com/in/md-naim-uddin-rahi"
+
   }
 };
-/* =====================================================================
-   ==================   END OF EDITABLE DATA   =======================
-   Rendering + interaction logic below — no need to touch it.
-   ===================================================================== */
+/* Rendering + interaction logic below — no need to touch it. */
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* ---------- small icon set (inline SVG, no icon library) ---------- */
 const icons = {
   mail: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>',
-  phone: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
   linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4V8h4v1.5A5.98 5.98 0 0 1 16 8z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
   play: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
   link: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
@@ -1071,28 +1155,50 @@ themeToggle.addEventListener('click', () => {
 });
 
 /* ---------- CUSTOM CURSOR ---------- */
-const hasFinePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-if(hasFinePointer){
-  document.body.classList.add('cursor-active');
-  const dot = document.getElementById('cursorDot');
-  const ring = document.getElementById('cursorRing');
-  let mx = window.innerWidth/2, my = window.innerHeight/2;
-  let rx = mx, ry = my;
-  window.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+const hasFinePointer = window.matchMedia(
+  "(hover: hover) and (pointer: fine)"
+).matches;
+
+if (hasFinePointer) {
+  document.body.classList.add("cursor-active");
+
+  const dot = document.getElementById("cursorDot");
+  const ring = document.getElementById("cursorRing");
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+
+  let ringX = mouseX;
+  let ringY = mouseY;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    dot.style.left = mouseX + "px";
+    dot.style.top = mouseY + "px";
   });
-  (function animateRing(){
-    rx += (mx - rx) * 0.16;
-    ry += (my - ry) * 0.16;
-    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
-    requestAnimationFrame(animateRing);
-  })();
-  document.addEventListener('mouseover', e => {
-    if(e.target.closest('.cursor-hover, a, button, input, textarea')) ring.classList.add('is-hover');
+
+  function animate() {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+
+    ring.style.left = ringX + "px";
+    ring.style.top = ringY + "px";
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  document.addEventListener("pointerover", (e) => {
+    if (e.target.closest(".cursor-hover, a, button, input, textarea")) {
+      ring.classList.add("is-hover");
+    }
   });
-  document.addEventListener('mouseout', e => {
-    if(e.target.closest('.cursor-hover, a, button, input, textarea')) ring.classList.remove('is-hover');
+
+  document.addEventListener("pointerout", () => {
+    ring.classList.remove("is-hover");
   });
 }
 
@@ -1130,14 +1236,14 @@ setTimeout(typeTerminal, 500);
 
 /* ---------- SOCIAL LINKS ---------- */
 const socialWrap = document.getElementById('socialLinks');
+
 portfolioData.socials.forEach(s => {
   const a = document.createElement('a');
   a.href = s.href;
   a.target = s.href.startsWith('http') ? '_blank' : '_self';
   a.rel = 'noopener';
-  a.className = 'cursor-hover w-10 h-10 rounded-full border flex items-center justify-center transition-transform hover:-translate-y-1';
-  a.style.borderColor = 'var(--border)';
-  a.style.color = 'var(--text-muted)';
+  a.className =
+    'social-link cursor-hover w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 hover:-translate-y-1';
   a.title = s.label;
   a.innerHTML = icons[s.icon] || s.label;
   socialWrap.appendChild(a);
@@ -1149,10 +1255,10 @@ const statsGrid = document.getElementById('statsGrid');
 portfolioData.stats.forEach(s => {
   const div = document.createElement('div');
   div.innerHTML = `
-    <p class="font-display font-extrabold text-3xl sm:text-4xl" style="color:var(--text);">
+    <p class="font-display font-extrabold text-3xl sm:text-4xl" style="color:var(--accent);">
       <span class="stat-num" data-target="${s.value}">0</span>${s.suffix}
     </p>
-    <p class="font-mono text-[11px] uppercase tracking-wide mt-1" style="color:var(--text-muted);">${s.label}</p>`;
+    <p class="font-mono text-[11px] uppercase tracking-wide mt-1" style="color:var(--color);">${s.label}</p>`;
   statsGrid.appendChild(div);
 });
 
@@ -1293,7 +1399,6 @@ document.getElementById('eduCard').innerHTML = `
 const c = portfolioData.contact;
 document.getElementById('contactInfo').innerHTML = `
   <a href="mailto:${c.email}" class="cursor-hover flex items-center gap-3 hover:text-[var(--accent)] transition-colors" style="color:var(--text);">${icons.mail} ${c.email}</a>
-  <a href="tel:${c.phone.replace(/\s/g,'')}" class="cursor-hover flex items-center gap-3 hover:text-[var(--accent)] transition-colors" style="color:var(--text);">${icons.phone} ${c.phone}</a>
   <a href="https://${c.linkedin}" target="_blank" rel="noopener" class="cursor-hover flex items-center gap-3 hover:text-[var(--accent)] transition-colors" style="color:var(--text);">${icons.linkedin} ${c.linkedin}</a>`;
 
 /* ---------- CONTACT FORM (mailto handoff, static hosting friendly) ---------- */
