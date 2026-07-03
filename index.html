@@ -52,6 +52,9 @@
   --code-string: #0b7a0b;
   --code-number: #b75501;
   --code-comment: #6a737d;
+
+  --code-namespace: #7C3AED;
+--code-namespacepath: #1F4ACC;
 }
 
 [data-theme="dark"] {
@@ -89,6 +92,8 @@
   --code-string: #fdec00;
   --code-number: #79c0ff;
   --code-comment: #8b949e;
+--code-namespace: #C792EA;
+--code-namespacepath: #82AAFF;
 }
 
   *{ box-sizing:border-box; }
@@ -255,12 +260,20 @@ body.cursor-active textarea {
   font-weight:600;
 }
 
+.namespace {
+  color: var(--code-namespace);
+}
+
+.namespacepath {
+  color: var(--code-namespacepath);
+}
+
 .class{
   color:var(--code-class);
 }
 
 .type{
-  color:var(--code-type);
+  color:var(--text);
 }
 
 .var{
@@ -339,6 +352,79 @@ body.cursor-active textarea {
 #profileModal.show > div {
   transform: translateY(0) scale(1);
 }
+
+/* ============================================================
+   GITHUB HEATMAP
+============================================================ */
+
+.github-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+.github-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.github-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.github-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 999px;
+}
+
+#heatmap > div > div {
+  transition:
+    transform .18s cubic-bezier(.22,1,.36,1),
+    opacity .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+#heatmap > div > div:hover {
+  transform: scale(1.45);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+  border-color: var(--accent) !important;
+  opacity: 1 !important;
+  z-index: 20;
+}
+
+#heatmapTooltip {
+  min-height: 22px;
+}
+
+#githubStats > div {
+  transition:
+    transform .25s cubic-bezier(.22,1,.36,1),
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+#githubStats > div:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow);
+}
+
+#heatmap {
+  animation: heatmapFade .7s ease;
+}
+
+@keyframes heatmapFade {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
 </style>
 </head>
 
@@ -347,7 +433,7 @@ body.cursor-active textarea {
 <!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-<div class="absolute top-24 left-4 sm:left-16 md:left-28 w-[250px] h-[250px] sm:w-[450px] sm:h-[450px] rounded-full overflow-hidden blur-2xl opacity-15 md:opacity-20 pointer-events-none select-none z-0">
+<div class="absolute top-28 left-1 sm:left-16 md:left-28 w-[250px] h-[250px] sm:w-[450px] sm:h-[450px] rounded-full overflow-hidden backdrop-blur-md opacity-15 md:opacity-15 pointer-events-none select-none z-0">
     <img 
       src="./md_naim_uddin_rahi.jpg"
       alt="Ambient Graphic" 
@@ -386,6 +472,7 @@ body.cursor-active textarea {
       <a href="#home" class="nav-link cursor-hover" data-nav>Home</a>
       <a href="#about" class="nav-link cursor-hover" data-nav>About</a>
       <a href="#skills" class="nav-link cursor-hover" data-nav>Skills</a>
+      <a href="#github" class="nav-link cursor-hover" data-nav>Github</a>
       <a href="#experience" class="nav-link cursor-hover" data-nav>Experience</a>
       <a href="#projects" class="nav-link cursor-hover" data-nav>Projects</a>
       <a href="#video-showcase" class="nav-link cursor-hover" data-nav>Video</a>
@@ -451,20 +538,33 @@ body.cursor-active textarea {
 
 <!-- HERO -->
 <section id="home" class="relative pt-20 pb-24 lg:pt-38 lg:pb-32 max-w-6xl mx-auto px-6 lg:px-8">
+  <p class="justify-center text-center text-md tracking-[0.25em] uppercase mb-5 font-serif italic leading-relaxed" style="color:var(--text-muted);">
+    <span
+      class="text-2xl font-serif leading-none opacity-50"
+      style="color: var(--accent);"
+    >“</span>
+    In the name of Allah, the Most Gracious, the Most Merciful
+   <span
+      class="text-2xl font-serif leading-none opacity-50"
+      style="color: var(--accent);"
+    >
+      ”
+    </span>  
+  </p>
+      
   <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
 
     <div class="reveal">
-      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-5" style="color:var(--accent);">// Software Engineer — Full Stack</p>
       <h1 class="font-display font-extrabold leading-[1.05] text-4xl sm:text-5xl lg:text-6xl mb-6">
-        Md. Naim Uddin<br/>
+        Md<span style="color: var(--accent);">.</span>   Naim Uddin<br/>
         <span class="gradient-text">Rahi</span>
       </h1>
       <div class="font-mono text-base sm:text-lg mb-7 h-7" style="color:var(--text-muted);">
         <span id="typedRole"></span><span class="blink" style="color:var(--accent);">|</span>
       </div>
       <p class="max-w-lg text-[15px] leading-relaxed mb-9" style="color:var(--text-muted);">
-        Dedicated software engineer with 5+ years building scalable, high‑performance web applications
-        with Laravel, PHP and MySQL — turning client requirements into reliable, maintainable systems.
+        Dedicated Software Engineer with 5+ years of experience delivering scalable, maintainable, and high-performance software solutions through clean engineering practices and continuous learning.
+
       </p>
 
       <div class="flex flex-wrap gap-4 mb-10">
@@ -473,7 +573,7 @@ body.cursor-active textarea {
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a
-          href="./md-naim-uddin.pdf"
+          href="./Mohammad_Naim_Uddin_Rahi_Resume.pdf"
           download
           class="resume-btn cursor-hover inline-flex items-center gap-2 px-6 py-3 rounded-full font-mono text-xs uppercase tracking-wide font-medium border transition-all duration-300 hover:-translate-y-0.5"
         >
@@ -491,9 +591,9 @@ body.cursor-active textarea {
           <span class="w-3 h-3 rounded-full" style="background:#ff5f56;"></span>
           <span class="w-3 h-3 rounded-full" style="background:#ffbd2e;"></span>
           <span class="w-3 h-3 rounded-full" style="background:#27c93f;"></span>
-          <span class="ml-3 font-mono text-[11px]" style="color:var(--text-muted);">mdnaimuddinrahi@dev — Skills.php</span>
+          <span class="ml-3 font-mono text-[11px]" style="color:var(--text-muted);">mdnaimuddinrahi@dev — AboutMe.php</span>
         </div>
-        <pre class="font-mono text-[12.5px] sm:text-[13px] leading-relaxed p-5 overflow-x-auto min-h-[280px]" style="color:var(--text);"><code id="terminalCode"></code><span class="blink" style="color:var(--accent);">▍</span></pre>
+        <pre class="font-mono text-[12.5px] sm:text-[13px] leading-relaxed p-3 overflow-x-auto min-h-[280px]" style="color:var(--text);"><code id="terminalCode"></code><span class="blink" style="color:var(--accent);">▍</span></pre>
       </div>
     </div>
   </div>
@@ -513,8 +613,6 @@ body.cursor-active textarea {
       </div>
     </div>
   </section>
-
-
 <!-- 02 / SKILLS -->
   <section id="skills" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
     <div class="reveal mb-12">
@@ -523,12 +621,249 @@ body.cursor-active textarea {
     </div>
     <div id="skillsWrap" class="space-y-10"></div>
   </section>
+  <!-- ============================================================
+     03 / GITHUB CONTRIBUTIONS
+============================================================ -->
+<section
+  id="github"
+  class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t relative overflow-hidden"
+  style="border-color: var(--border);"
+>
+
+  <!-- Ambient Accent Glow -->
+  <div
+    class="absolute right-0 top-0 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-[0.04]"
+    style="background: var(--accent);"
+  ></div>
+
+  <div class="reveal relative z-10 space-y-8">
+
+    <!-- Heading -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+
+      <div>
+        <p
+          class="font-mono text-xs tracking-[0.25em] uppercase mb-3"
+          style="color: var(--accent);"
+        >
+          03 / GitHub Contributions
+        </p>
+
+        <div>
+  <h2 class="font-display font-bold text-3xl sm:text-4xl">
+    Consistency Builds Excellence
+  </h2>
 
 
-<!-- 03 / EXPERIENCE -->
+  <a
+    href="https://github.com/mdnaimuddinrahi"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group mt-5 inline-flex items-center gap-2 font-mono text-sm transition-all duration-300 hover:translate-x-1 border-2 p-3 rounded-3xl"
+    style="color: var(--accent);"
+  >
+    View my GitHub Profile
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M17 7l-10 10M8 7h9v9"
+      />
+    </svg>
+  </a>
+</div>
+      </div>
+
+      <!-- Stats -->
+      <div
+        id="githubStats"
+        class="grid grid-cols-3 gap-3 w-full lg:w-auto"
+      >
+
+        <div
+          class="rounded-2xl border px-5 py-4"
+          style="
+            border-color:var(--border);
+            background:var(--surface);
+          "
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-wider"
+            style="color:var(--text-muted)"
+          >
+            Contributions
+          </p>
+
+          <h3
+            id="statTotal"
+            class="mt-2 text-xl font-bold"
+            style="color:var(--accent)"
+          >
+            --
+          </h3>
+        </div>
+
+        <div
+          class="rounded-2xl border px-5 py-4"
+          style="
+            border-color:var(--border);
+            background:var(--surface);
+          "
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-wider"
+            style="color:var(--text-muted)"
+          >
+            Current Streak
+          </p>
+
+          <h3
+            id="statCurrent"
+            class="mt-2 text-xl font-bold"
+            style="color:var(--accent)"
+          >
+            --
+          </h3>
+        </div>
+
+        <div
+          class="rounded-2xl border px-5 py-4"
+          style="
+            border-color:var(--border);
+            background:var(--surface);
+          "
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-wider"
+            style="color:var(--text-muted)"
+          >
+            Longest Streak
+          </p>
+
+          <h3
+            id="statLongest"
+            class="mt-2 text-xl font-bold"
+            style="color:var(--accent)"
+          >
+            --
+          </h3>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Heatmap -->
+    <div
+      class="rounded-3xl border p-6 overflow-hidden"
+      style="
+        border-color:var(--border);
+        background:var(--surface);
+      "
+    >
+
+      <!-- Month labels -->
+      <div
+        id="monthLabels"
+        class="relative h-5 ml-10 mb-3 text-[10px] font-mono uppercase tracking-wider"
+        style="color:var(--text-muted)"
+      ></div>
+
+      <div class="flex">
+
+        <!-- Weekday labels -->
+        <div
+          class="mr-3 flex flex-col justify-between h-[94px] text-[10px] font-mono"
+          style="color:var(--text-muted)"
+        >
+          <span>Sun</span>
+          <span>Tue</span>
+          <span>Thu</span>
+          <span>Sat</span>
+        </div>
+
+        <!-- Scroll Area -->
+        <div class="flex-1 overflow-x-auto github-scroll">
+
+          <div
+            id="heatmap"
+            class="flex gap-[3px] min-w-[760px]"
+          ></div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div
+        class="mt-6 pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
+        style="border-color:var(--border)"
+      >
+
+        <div
+          id="heatmapTooltip"
+          class="flex items-center gap-2 text-xs font-mono"
+          style="color:var(--text-muted)"
+        >
+          <span
+            class="w-2 h-2 rounded-full animate-pulse"
+            style="background:var(--accent)"
+          ></span>
+
+          Hover over any day to inspect activity.
+        </div>
+
+        <!-- Legend -->
+        <div
+          class="flex items-center gap-2 text-[10px] font-mono"
+          style="color:var(--text-muted)"
+        >
+
+          <span>Less</span>
+
+          <span class="w-[11px] h-[11px] rounded-[2px]"
+                style="background:var(--surface-2);border:1px solid var(--border)">
+          </span>
+
+          <span class="w-[11px] h-[11px] rounded-[2px]"
+                style="background:var(--accent);opacity:.25">
+          </span>
+
+          <span class="w-[11px] h-[11px] rounded-[2px]"
+                style="background:var(--accent);opacity:.45">
+          </span>
+
+          <span class="w-[11px] h-[11px] rounded-[2px]"
+                style="background:var(--accent);opacity:.7">
+          </span>
+
+          <span class="w-[11px] h-[11px] rounded-[2px]"
+                style="background:var(--accent)">
+          </span>
+
+          <span>More</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- 04/ EXPERIENCE -->
   <section id="experience" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
     <div class="reveal mb-14">
-      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">03 / Experience</p>
+      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">04 / Experience</p>
       <h2 class="font-display font-bold text-3xl sm:text-4xl">Where I've worked</h2>
     </div>
     <div id="timelineWrap" class="relative pl-8 sm:pl-10"></div>
@@ -541,7 +876,6 @@ body.cursor-active textarea {
         <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">04 / Projects</p>
         <h2 class="font-display font-bold text-3xl sm:text-4xl">Selected work</h2>
       </div>
-      <p class="text-sm max-w-xs" style="color:var(--text-muted);">Add project images and YouTube demo links directly in the data object — cards render automatically.</p>
     </div>
     <div id="projectsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </section>
@@ -675,17 +1009,17 @@ body.cursor-active textarea {
 <!-- PUBLICATION + CERTIFICATIONS + EDUCATION -->
 <section class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t grid lg:grid-cols-3 gap-10" style="border-color:var(--border);">
   <div class="reveal lg:col-span-1">
-    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">05 / Publication</p>
+    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">06 / Publication</p>
     <h2 class="font-display font-bold text-2xl mb-4">Research</h2>
     <div id="publicationCard"></div>
   </div>
   <div class="reveal reveal-delay-1 lg:col-span-1">
-    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">06 / Certifications</p>
+    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">07 / Certifications</p>
     <h2 class="font-display font-bold text-2xl mb-4">Credentials</h2>
     <div id="certList" class="space-y-3"></div>
   </div>
   <div class="reveal reveal-delay-2 lg:col-span-1">
-    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">07 / Education</p>
+    <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">08 / Education</p>
     <h2 class="font-display font-bold text-2xl mb-4">Background</h2>
     <div id="eduCard"></div>
   </div>
@@ -695,7 +1029,7 @@ body.cursor-active textarea {
 <section id="contact" class="max-w-6xl mx-auto px-6 lg:px-8 py-20 lg:py-28 border-t" style="border-color:var(--border);">
   <div class="grid lg:grid-cols-2 gap-14">
     <div class="reveal">
-      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">08 / Contact</p>
+      <p class="font-mono text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--accent);">09 / Contact</p>
       <h2 class="font-display font-bold text-3xl sm:text-4xl mb-6 leading-tight">Let's build something<br/>reliable together</h2>
       <p class="text-[15px] leading-relaxed mb-8 max-w-md" style="color:var(--text-muted);">
         Open to full-time roles and freelance Laravel / full-stack work. The fastest way to reach me is email.
@@ -757,19 +1091,47 @@ body.cursor-active textarea {
     <img
       src="./md_naim_uddin_rahi.jpg"
       alt="Md. Naim Uddin Rahi"
-      class="mx-auto h-49 w-40 rounded-full object-cover"
+      class="mx-auto h-49 w-40 rounded-md object-cover"
     />
 
-    <h2 class="mt-6 text-center text-2xl font-bold text-white">
-      Md. Naim Uddin Rahi
-    </h2>
+   <div class="mt-3 text-center">
+  <span
+    class="block text-3xl leading-none select-none opacity-15"
+    style="color: var(--accent);"
+  >
+    “
+  </span>
 
-    <p class="mt-4 text-center text-sm leading-7 text-gray-400">
-      Passionate Full Stack Software Developer specializing in Laravel,
-      React, Next.js and TypeScript. I enjoy crafting clean, scalable,
-      high-performance applications with modern UI and exceptional user
-      experience.
-    </p>
+  <p
+    class=" text-[15px] leading-8 font-light italic"
+    style="color: var(--text-muted);"
+  >
+    I believe great software is more than writing code—it’s about solving
+    real problems with clean architecture, thoughtful design, and continuous
+    learning. Every project is an opportunity to build something meaningful,
+    scalable, and maintainable.
+  </p>
+
+  <span
+    class="block text-3xl leading-none select-none opacity-15"
+    style="color: var(--accent);"
+  >
+    ”
+  </span>
+<!-- 
+  <div class="mt-5 flex items-center justify-center gap-3">
+    <div class="h-px w-10" style="background: var(--border);"></div>
+
+    <span
+      class="font-mono text-xs uppercase tracking-[0.25em]"
+      style="color: var(--accent);"
+    >
+      — Mohammad Naim Uddin Rahi
+    </span>
+
+    <div class="h-px w-10" style="background: var(--border);"></div>
+  </div> -->
+</div>
 
   </div>
 </div>
@@ -938,10 +1300,13 @@ profilemodal.addEventListener("click", (e) => {
 const portfolioData = {
 
   name: "Md. Naim Uddin Rahi",
-  roles: ["Software Engineer", "Laravel Developer", "Full Stack Developer", "Problem Solver"],
-
-  about: "Dedicated Software Engineer with over 5 years of experience in Laravel and full stack development, specializing in PHP, MySQL, and modern JavaScript frameworks. Passionate about building scalable, high-performance applications and aiming to contribute technical expertise and problem-solving skills to deliver impactful digital solutions in a dynamic team environment.",
-
+  roles:  [
+  "Software Engineer",
+  "Full Stack Web Developer",
+  "Laravel & Next.js Developer",
+  "Problem Solver"
+],
+  about: "With over 5 years of professional experience, I specialize in designing and developing scalable web applications. I value clean engineering practices, maintainable architecture, and performance, always striving to deliver software that is reliable, efficient, and built for long-term success.",
   stats: [
     { value: 5, suffix: "+", label: "Years Experience" },
     { value: 4, suffix: "",  label: "Companies" },
@@ -949,18 +1314,20 @@ const portfolioData = {
     { value: 2, suffix: "",  label: "Certifications" }
   ],
 
-terminalSnippet: `
+terminalSnippet: `<span class="namespace">namespace</span> <span class="namespacepath">Asia\\Bangladesh\\Chattogram</span>;
+
 <span class="kw">class</span> <span class="class">SoftwareEngineer</span> {
-    <span class="kw">protected</span> <span class="type">string</span> <span class="var">$name</span> = <span class="str">"Naim Uddin Rahi"</span>;
+    <span class="kw">protected</span> <span class="type">string</span> <span class="var">$name</span> = <span class="str">"Mohammad Naim Uddin Rahi"</span>;
 
     <span class="kw">protected</span> <span class="type">array</span> <span class="var">$stack</span> = [
-        <span class="str">"Laravel"</span>, <span class="str">"PHP"</span>, <span class="str">"MySQL"</span>,
-        <span class="str">"React.js"</span>, <span class="str">"JavaScript"</span>, <span class="str">"Python"</span>
+        <span class="str">"PHP"</span>, <span class="str">"Laravel"</span>, <span class="str">"CodeIgniter"</span>,
+        <span class="str">"MySQL"</span>, <span class="str">"PostGreSQL"</span>, 
+        <span class="str">"JavaScript"</span>, <span class="str">"TypeScript"</span>, <span class="str">"React.JS"</span>, <span class="str">"Next.JS"</span>, 
+        <span class="str">"Python"</span>
     ];
 
     <span class="kw">public</span> <span class="kw">function</span> <span class="method">focus</span>(): <span class="type">string</span> {
-        <span class="kw">return</span> <span class="str">"Scalable, maintainable,
-                 software solutions."</span>;
+        <span class="kw">return</span> <span class="str">"Crafting scalable and maintainable solutions."</span>;
     }
 }
 `,
@@ -971,33 +1338,67 @@ terminalSnippet: `
     { label: "Github", href: "https://github.com/mdnaimuddinrahi", icon: "github" }
   ],
 
-  // Group skills however you like — icons are optional emoji/short labels
   skills: [
     {
       category: "Languages & Frameworks",
-      items: ["PHP", "Laravel", "JavaScript", "React.js", "jQuery", "Python"]
+      items: [
+        "PHP",
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "Laravel",
+        "React.js",
+        "Next.js",
+        "CodeIgniter",
+        "jQuery"
+      ]
     },
     {
       category: "Databases",
-      items: ["MySQL", "Query Optimization", "Performance Tuning", "Database Architecture"]
+      items: [
+        "MySQL",
+        "PostGreSQL",
+        "Database Architecture",
+        "Query Optimization",
+        "Performance Tuning"
+      ]
     },
     {
       category: "Tools & Collaboration",
-      items: ["Git", "GitLab", "REST APIs", "CodeIgniter"]
+      items: [
+        "Git",
+        "GitLab",
+        "REST APIs"
+      ]
     },
     {
       category: "Practices",
-      items: ["Secure Coding", "Scalable System Design", "High-Traffic Optimization"]
+      items: [
+        "Secure Coding",
+        "Scalable System Design",
+        "High-Traffic Optimization"
+      ]
     }
   ],
 
   experience: [
     {
+      role: "Open to Opportunities",
+      company: "Available for Full-Time / Remote",
+      location: "Worldwide",
+      period: "Jun 2026 — Present",
+      current: true,
+      points: [
+        "Seeking opportunities to contribute to impactful software projects as a Software Engineer or Full Stack Developer.",
+        "Open to full-time, remote, and collaborative engineering roles focused on building scalable and reliable applications."
+      ]
+    },
+    {
       role: "Software Engineer",
       company: "SoftRobotics Bangladesh Ltd.",
       location: "Chattogram",
-      period: "Aug 2023 — Present",
-      current: true,
+      period: "Aug 2023 — May 2026",
+      current: false,
       points: [
         "Maintaining and enhancing an eWallet-based web application.",
         "Implementing new integrations and resolving issues based on client requirements."
@@ -1444,7 +1845,7 @@ document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
 
 /* ---------- NAV: scrollspy + mobile menu + backdrop shadow ---------- */
 const navLinks = document.querySelectorAll('[data-nav]');
-const sections = ['home','about','skills','experience','projects','contact'].map(id => document.getElementById(id));
+const sections = ['home','about','skills', 'github','experience','projects','contact'].map(id => document.getElementById(id));
 
 const navObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1481,6 +1882,320 @@ window.addEventListener('scroll', () => {
   }
 });
 toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+
+/* ============================================================
+   GITHUB HEATMAP DATA
+============================================================ */
+
+const github = {
+  weeks: [],
+  monthLabels: [],
+  total: 0,
+  currentStreak: 0,
+  longestStreak: 0,
+};
+
+const MONTHS = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+];
+
+function buildGitHubHeatmapData() {
+
+  github.weeks = [];
+  github.monthLabels = [];
+  github.total = 0;
+
+  const today = new Date();
+
+  // Go back 371 days (~53 weeks)
+  const start = new Date(today);
+  start.setDate(start.getDate() - 371);
+
+  // Align to Sunday
+  start.setDate(start.getDate() - start.getDay());
+
+  let currentMonth = -1;
+
+  for (let week = 0; week < 53; week++) {
+
+    const days = [];
+
+    for (let day = 0; day < 7; day++) {
+
+      const date = new Date(start);
+      date.setDate(start.getDate() + week * 7 + day);
+
+      // --------------------------------------------------
+      // Fake contribution data
+      // Later we'll replace this with GitHub API.
+      // --------------------------------------------------
+
+      let count = 0;
+
+      const r = Math.random();
+
+      if (r > .45) {
+
+        count = Math.floor(Math.random() * 9);
+
+      }
+
+      github.total += count;
+
+      days.push({
+        date,
+        count
+      });
+
+      // Month label
+
+      if (
+        day === 0 &&
+        date.getMonth() !== currentMonth
+      ) {
+
+        currentMonth = date.getMonth();
+
+        github.monthLabels.push({
+          name: MONTHS[currentMonth],
+          week
+        });
+
+      }
+
+    }
+
+    github.weeks.push(days);
+
+  }
+
+  calculateStreaks();
+
+}
+
+function calculateStreaks() {
+
+  const flat = github.weeks.flat();
+
+  let current = 0;
+  let longest = 0;
+
+  // longest streak
+
+  let temp = 0;
+
+  for (const day of flat) {
+
+    if (day.count > 0) {
+
+      temp++;
+
+      longest = Math.max(longest, temp);
+
+    } else {
+
+      temp = 0;
+
+    }
+
+  }
+
+  // current streak
+
+  for (let i = flat.length - 1; i >= 0; i--) {
+
+    if (flat[i].count > 0) {
+
+      current++;
+
+    } else {
+
+      break;
+
+    }
+
+  }
+
+  github.currentStreak = current;
+  github.longestStreak = longest;
+
+}
+
+function renderMonthLabels() {
+
+  const container =
+    document.getElementById("monthLabels");
+
+  container.innerHTML = "";
+
+  github.monthLabels.forEach(month => {
+
+    const span = document.createElement("span");
+
+    span.textContent = month.name;
+
+    span.className =
+      "absolute text-[10px] font-mono";
+
+    span.style.left =
+      `${month.week * 13.5 + 2}px`;
+
+    container.appendChild(span);
+
+  });
+
+}
+
+function renderStats() {
+
+  document.getElementById("statTotal").textContent = 
+    github.total;
+
+  document.getElementById("statCurrent").textContent =
+    `${github.currentStreak} Days`;
+
+  document.getElementById("statLongest").textContent =
+    `${github.longestStreak} Days`;
+
+}
+
+buildGitHubHeatmapData();
+renderMonthLabels();
+renderStats();
+
+/* ============================================================
+   RENDER HEATMAP
+============================================================ */
+
+function getContributionLevel(count) {
+
+  if (count === 0) return 0;
+  if (count <= 2) return 1;
+  if (count <= 4) return 2;
+  if (count <= 7) return 3;
+
+  return 4;
+}
+
+function getCellStyle(level, cell) {
+
+  switch (level) {
+
+    case 0:
+      cell.style.background = "var(--surface-2)";
+      cell.style.border = "1px solid var(--border)";
+      break;
+
+    case 1:
+      cell.style.background = "var(--accent)";
+      cell.style.opacity = ".25";
+      break;
+
+    case 2:
+      cell.style.background = "var(--accent)";
+      cell.style.opacity = ".45";
+      break;
+
+    case 3:
+      cell.style.background = "var(--accent)";
+      cell.style.opacity = ".70";
+      break;
+
+    case 4:
+      cell.style.background = "var(--accent)";
+      cell.style.opacity = "1";
+      break;
+
+  }
+
+}
+
+function renderHeatmap() {
+
+  const container = document.getElementById("heatmap");
+
+  const tooltip = document.getElementById("heatmapTooltip");
+
+  container.innerHTML = "";
+
+  github.weeks.forEach((week) => {
+
+    const column = document.createElement("div");
+
+    column.className = "flex flex-col gap-[3px]";
+
+    week.forEach(day => {
+
+      const cell = document.createElement("div");
+
+      const level = getContributionLevel(day.count);
+
+      cell.className =
+        "w-[10px] h-[10px] rounded-[2px] cursor-pointer transition-all duration-200";
+
+      getCellStyle(level, cell);
+
+      cell.addEventListener("mouseenter", () => {
+
+        cell.style.transform = "scale(1.35)";
+        cell.style.zIndex = "5";
+
+        tooltip.innerHTML = `
+          <span
+            class="w-2 h-2 rounded-full inline-block"
+            style="background:var(--accent)"
+          ></span>
+
+          <strong style="color:var(--accent)">
+            ${day.count}
+          </strong>
+
+          contribution${day.count === 1 ? "" : "s"}
+
+          on
+
+          ${day.date.toLocaleDateString(undefined,{
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+          })}
+        `;
+
+      });
+
+      cell.addEventListener("mouseleave", () => {
+
+        cell.style.transform = "";
+
+        tooltip.innerHTML = `
+          <span
+            class="w-2 h-2 rounded-full inline-block animate-pulse"
+            style="background:var(--accent)"
+          ></span>
+
+          Hover over any day to inspect activity.
+        `;
+
+      });
+
+      column.appendChild(cell);
+
+    });
+
+    container.appendChild(column);
+
+  });
+
+}
+buildGitHubHeatmapData();
+
+renderMonthLabels();
+
+renderStats();
+
+renderHeatmap();
 </script>
 </body>
 </html>
