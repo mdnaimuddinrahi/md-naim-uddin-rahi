@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mdnaimuddinrahi.github.io/md-naim-uddin-rahi/sitemap.xml
